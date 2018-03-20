@@ -47,9 +47,9 @@ int main()
 			printf("appel de la fonction shell\n");
 			command = malloc((strlen(buffer))*sizeof(char)); //allocation du pointer
 			strcpy(command,buffer);
+			printf("go\n");
 			char* path = shellcommand(command);
-			//printf("resultat : %s\n", path);
-			//printf("sending path...");
+			printf("%s\n", "no go\n");
 			send(sock, path, (strlen(path))*sizeof(char), 0);
 
 		}	

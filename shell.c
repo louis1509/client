@@ -69,7 +69,8 @@ char* shellcommand(char* command )
     }
 
   if (finalOutput == NULL){
-    return 'NULL';
+    printf("%s\n", "finalOutput is NULL");
+    return "NULL";
   }
   else{
     return finalOutput;
