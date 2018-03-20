@@ -9,23 +9,38 @@ char* shellcommand(char* command )
 {
   printf("test du shell... : \n");
   FILE *fp;
-  char path[1035];
-  char buffer[10000];
-  char *finalOutput = NULL;
-  memset(path,0,1035);
-  memset(buffer,0,10000);
-  /* Open the command for reading. */
+  char path[1035];          
+  char buffer[10000];       // Buffer
+  char* finalOutput = NULL; // Final result
+  char* commandSplitted;   // Command splitted to check if cd  
+  char* commandSplittedArray[2];
+  memset(path,0,1035);      // reset to 0 path
+  memset(buffer,0,10000);   // reset to 0 buffer
+
+  int i =0;
+ 
+  /**
+  Spliting command to see if there is change directory (cd)
+  **/
+  commandSplitted = strtok (command," ,.-");
+  while (commandSplitted != NULL)
+  {
+    commandSplittedArray[i] = commandSplitted;
+    commandSplitted = strtok (NULL, " "); 
+    i++;
+  }
+  printf("0 %s\n", commandSplittedArray[0]);
+  printf("1 %s\n", commandSplittedArray[1]);
 
   //If changing directory 
   if (strcmp(command,"cd") == 0){
-      chdir("D:");
+    chdir("C:");
     char st[80];
-
     getcwd(st,80);
     printf("Current Working Directory : %s",st);
-    getch();
-    system("mkdir test");
+   
   }
+   /* Open the command for reading. */
   else{
       fp = popen(command, "r");
       if (fp == NULL) {
@@ -53,6 +68,11 @@ char* shellcommand(char* command )
       pclose(fp);
     }
 
-
-  return finalOutput;
+  if (finalOutput == NULL){
+    return 'NULL';
+  }
+  else{
+    return finalOutput;
+  }
+  
 }

