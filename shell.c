@@ -14,8 +14,9 @@ char* shellcommand(char* command )
   char* finalOutput = NULL; // Final result
   char* commandSplitted;   // Command splitted to check if cd  
   char* commandSplittedArray[2];
+  char currentDirectory[100];
   memset(path,0,1035);      // reset to 0 path
-  memset(buffer,0,10000);   // reset to 0 buffer
+  memset(buffer,0,10000);  // reset to 0 buffer
 
   int i =0;
  
@@ -34,10 +35,12 @@ char* shellcommand(char* command )
 
   //If changing directory 
   if (strcmp(command,"cd") == 0){
-    chdir("C:");
-    char st[80];
-    getcwd(st,80);
-    printf("Current Working Directory : %s",st);
+    int res = chdir(commandSplittedArray[1]);
+    printf("%s%d\n","the chdir result is : ", res);
+    getcwd(currentDirectory,100);
+    printf("Current Working Directory : %s",currentDirectory);
+    finalOutput = malloc((strlen(currentDirectory))*sizeof(char));
+    strcpy(finalOutput,buffer);
    
   }
    /* Open the command for reading. */
