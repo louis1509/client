@@ -17,6 +17,7 @@ char* shellcommand(char* command )
   char currentDirectory[100];
   memset(path,0,1035);      // reset to 0 path
   memset(buffer,0,10000);  // reset to 0 buffer
+  memset(currentDirectory,0,100);  // reset to 0 currentDirectory
 
   int i =0;
  
@@ -34,13 +35,16 @@ char* shellcommand(char* command )
   printf("1 %s\n", commandSplittedArray[1]);
 
   //If changing directory 
-  if (strcmp(command,"cd") == 0){
-    int res = chdir(commandSplittedArray[1]);
-    printf("%s%d\n","the chdir result is : ", res);
-    getcwd(currentDirectory,100);
+  if (strcmp(commandSplittedArray[0],"cd") == 0){
+    printf("%s\n", "on passe dans la command cd");
+    if(chdir(commandSplittedArray[1]) == -1){
+       printf( "Unable to locate the directory: %s\n", commandSplittedArray[1]); 
+    }
+  
+     getcwd(currentDirectory,100);
     printf("Current Working Directory : %s",currentDirectory);
-    finalOutput = malloc((strlen(currentDirectory))*sizeof(char));
-    strcpy(finalOutput,buffer);
+    // finalOutput = malloc((strlen(currentDirectory))*sizeof(char));
+    // strcpy(finalOutput,buffer);
    
   }
    /* Open the command for reading. */
@@ -52,8 +56,7 @@ char* shellcommand(char* command )
       }
       else {
         /* Read the output a line at a time - output it. */
-        while (fgets(path, sizeof(path)-1, fp) != NULL) {
-         
+        while (fgets(path, sizeof(path)-1, fp) != NULL) {      
           printf("%s", path);
           strcat(buffer,path);
         }
@@ -63,8 +66,9 @@ char* shellcommand(char* command )
          int size = strlen(buffer)*sizeof(char);
          printf("size of the buffer : %d\n", size);
 
-         finalOutput = malloc((strlen(buffer))*sizeof(char));
-         strcpy(finalOutput,buffer);
+         // finalOutput = malloc((strlen(buffer))*sizeof(char)); //Fais péter
+         // strcpy(finalOutput,buffer);
+           
      }
 
       /* close */
@@ -73,10 +77,12 @@ char* shellcommand(char* command )
 
   if (finalOutput == NULL){
     printf("%s\n", "finalOutput is NULL");
-    return "NULL";
+    return "NULL\n";
   }
   else{
+    printf("finalOutput is not null : %s",finalOutput);
     return finalOutput;
   }
+   
   
 }

