@@ -42,8 +42,12 @@ char* shellcommand(char* command )
     }
   
      getcwd(currentDirectory,100);
-    printf("Current Working Directory : %s",currentDirectory);
-    // finalOutput = malloc((strlen(currentDirectory))*sizeof(char));
+      printf("Current Working Directory : %s",currentDirectory);
+     finalOutput = malloc((strlen(currentDirectory))*sizeof(char));
+     if(finalOutput == NULL){
+       printf("%s\n", "Failed to allocate memory");
+      //exit(0);
+     }
     // strcpy(finalOutput,buffer);
    
   }
@@ -66,8 +70,12 @@ char* shellcommand(char* command )
          int size = strlen(buffer)*sizeof(char);
          printf("size of the buffer : %d\n", size);
 
-         // finalOutput = malloc((strlen(buffer))*sizeof(char)); //Fais péter
-         // strcpy(finalOutput,buffer);
+         finalOutput = malloc((strlen(buffer))*sizeof(char));
+         if(finalOutput == NULL){
+          printf("%s\n", "Failed to allocate memory");
+          //exit(0);
+         }
+         //strcpy(finalOutput,buffer); //fais peter
            
      }
 
@@ -82,7 +90,10 @@ char* shellcommand(char* command )
   else{
     printf("finalOutput is not null : %s",finalOutput);
     return finalOutput;
+
   }
-   
+  printf("%s\n", "FREE MEMORY");
+  
+  free(finalOutput);
   
 }

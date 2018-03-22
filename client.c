@@ -11,7 +11,7 @@ int main()
     WSADATA WSAData;
     SOCKET sock;
     SOCKADDR_IN sin;
-    char buffer[255];
+    char buffer[10000]; // Est-ce que ça n'est pas juste ca 
     char sentence[1040];
     char* command = NULL;
     char mode[20]= "none";
