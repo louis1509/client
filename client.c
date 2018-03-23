@@ -42,12 +42,17 @@ int main()
 		if(strcmp(mode,"command") == 0){
 			printf("appel de la fonction shell\n");
 			command = malloc((strlen(buffer))*sizeof(char)); //allocation du pointer
+			if(command == NULL){
+				printf("%s\n", "failed to allocate memory for command");
+				exit(0);
+			}
 			strcpy(command,buffer);
 			printf("go\n");
 			printf("command envoyée : %d\n", command );
 			char* path = shellcommand(command);
 			printf("le path est : %s\n", path);
 			send(sock, path, (strlen(path))*sizeof(char), 0);
+			free(command);
 		}	 
 		//Fixe le mode en fonction de la commande envoyée
 		//si command, on passen mode commande
