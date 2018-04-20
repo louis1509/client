@@ -32,44 +32,49 @@ char* shellcommand(char* command )
     commandSplitted = strtok (NULL, " ");
     i++;
   }
-  printf("0 %s\n", commandSplittedArray[0]);
-  printf("1 %s\n", commandSplittedArray[1]);
-
-  //If changing directory
+  //Setting current direcorty
+  getcwd(currentDirectory,100);
+  printf("Current Working Directory : %s\n",currentDirectory);
+  /***
+  * If changing directory
+  ***/
   if (strcmp(commandSplittedArray[0],"cd") == 0){
     printf("%s\n", "on passe dans la command cd");
     if(chdir(commandSplittedArray[1]) == -1){
        printf( "Unable to locate the directory: %s\n", commandSplittedArray[1]);
+    }else{
+        printf("Current Working Directory : %s\n",currentDirectory);
     }
 
-     getcwd(currentDirectory,100);
-     printf("Current Working Directory : %s",currentDirectory);
      finalOutput = malloc((strlen(currentDirectory))*sizeof(char));
      if(finalOutput == NULL){
        printf("%s\n", "Failed to allocate memory");
       exit(0);
      }
      strcpy(finalOutput,currentDirectory);
+     printf("Final output (path): %s \n", finalOutput);
 
   }
-  //If creating  a directory
+
+  /***
+  * If creating  a directory
+  ***/
+
   else if(strcmp(commandSplittedArray[0],"mkdir") == 0){
-      printf("%s\n", "on passe dans la command mkdir");
-      getcwd(currentDirectory,100);
-      printf("Current Working Directory : %s",currentDirectory);
-      strcat(currentDirectory,"\\");
-      strcat(currentDirectory,commandSplittedArray[1]);
-      printf("Current Working Directory 2 : %s",currentDirectory);
-        char st[80];
-        int n;
-     
-        printf("Enter Path : ");
-        gets(st);
-        n=mkdir(st);
-        if(n==0)
-        printf("Directory Created");
-        else
-        printf("Unable to Create a Directory");
+      printf("%s\n", "on passe dans la command mkdir\n");
+        printf("le nom du dossier à créer est : %s\n", commandSplittedArray[1]) ;
+        char* test;
+        test = (char* )malloc((strlen(buffer))*sizeof(char) +1);
+        if(test == NULL){
+          printf("%s\n", "Failed to allocate memory");
+          exit(0);
+          }
+        strcpy(test,commandSplittedArray[1]);
+      int n=mkdir(test);
+      if(n==0)
+      printf("Directory Created");
+      else
+      printf("Unable to Create a Directory");
 
   }
 
